@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { Game } from "./components/Game";
 import { Turns } from "./components/Turns";
@@ -7,7 +7,7 @@ import { TURNS } from "./consts";
 import { checkWinner, endGame } from "./logic/logic";
 import { ModalWinner } from "./components/ModalWinner";
 import { Points } from "./components/Points";
-import { storage, storegClear } from "./storage";
+import { clearStorege, saveStorage } from "./storage";
 
 export function App() {
   const [board, setBoard] = useState(() => {
@@ -29,7 +29,10 @@ export function App() {
   });
   function updateBoard(i) {
     //
-    if (board[i] || winner) return;
+    if (board[i] || winner) {
+      playAgain();
+      return;
+    }
 
     // turns
     const newTrun = turn === TURNS.x ? TURNS.o : TURNS.x;
@@ -39,9 +42,6 @@ export function App() {
     const newBoard = [...board];
     newBoard[i] = turn;
     setBoard(newBoard);
-
-    //storage
-    storage(newBoard, newTrun, pointsX, pointsO);
 
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
@@ -54,13 +54,16 @@ export function App() {
       setWinner(false);
     }
   }
+  useEffect(() => {
+    saveStorage(board, turn, pointsX, pointsO);
+  }, [board, turn, pointsX, pointsO]);
   function resetGame() {
     setBoard(Array(9).fill(null));
     setTurn(TURNS.x);
     setWinner(null);
     setPointsX(0);
     setPointsO(0);
-    storegClear();
+    clearStorege();
   }
   function playAgain() {
     setBoard(Array(9).fill(null));
