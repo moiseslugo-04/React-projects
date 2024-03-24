@@ -1,33 +1,32 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useState } from 'react'
+import { TASKS } from '../data/data'
 export const TaskContext = createContext()
-import { tasks as data } from '../data/tasks'
+export const TaskContextProvider = ({ children }) => {
+  const [tasks, setTasks] = useState(TASKS)
+  const [done, setDone] = useState(false)
+  const handleTaskCompletion = (taskId, completed) => {
+    if (completed == undefined) {
+      const renderTask = tasks.filter((_, index) => index !== taskId)
+      setTasks(renderTask)
+    } else {
+      const updatedTasks = tasks.map((task, index) => {
+        if (index === taskId) {
+          return { ...task, completed: !completed }
+        }
+        return task
+      })
 
-export const TaskContextProvider = (props) => {
-  const [tasks, setTasks] = useState([])
-  useEffect(() => setTasks(data), [])
-  const createTask = (title, description) => {
-    setTasks([
-      ...tasks,
-      {
-        title,
-        id: tasks.length,
-        description,
-      },
-    ])
+      setTasks(updatedTasks)
+    }
   }
-  const deleteTask = (id) => {
-    const newTasks = tasks.filter((task) => task.id !== id)
-    setTasks(newTasks)
+  function createTask(title, description) {
+    if (title < 1) return
+    setTasks([...tasks, { title, description, completed: false }])
   }
+
   return (
-    <TaskContext.Provider
-      value={{
-        tasks,
-        deleteTask,
-        createTask,
-      }}
-    >
-      {props.children}
+    <TaskContext.Provider value={{ tasks, handleTaskCompletion, createTask }}>
+      {children}
     </TaskContext.Provider>
   )
 }

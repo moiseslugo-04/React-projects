@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #15b2e296;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  gap: 10px;
+}
+form input,
+form textarea {
+  width: 100%;
+}
+form input[type='submit'] {
+  background: #2852db9f;
+  padding: 10px 8px;
+  border-radius: 20px;
+}
+.task {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+.task h1 {
+  color: #356;
+  font-size: 2em;
+}
+.task-content {
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  gap: 20px;
+}
+
+.task .task-card {
+  background: rgba(3, 14, 12, 0.856);
+  color: #fff;
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.task .task-card .btn {
+  display: flex;
+  align-items: center;
+}
+.task .task-card .btn button {
+  background: #ff0000;
+  padding: 5px 12px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.task .task-card .btn label {
+  margin-right: 3px;
+}
+.task .task-card .btn button:hover {
+  background: #e66f6ffb;
+}
