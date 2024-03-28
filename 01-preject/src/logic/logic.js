@@ -1,12 +1,23 @@
-import { WINNERS } from "../consts";
+import { WINNERS } from '../consts'
 
 export const checkWinner = (board) => {
   for (let combo of WINNERS) {
-    const [a, b, c] = combo;
+    const [a, b, c] = combo
     if (board[a] && board[a] === board[b] && board[b] === board[c]) {
-      return board[a];
+      return board[a]
     }
   }
-  return null;
-};
-export const endGame = (board) => board.every((i) => i !== null);
+  return null
+}
+export const endGame = (board) => board.every((i) => i !== null)
+
+export function handlePoints(winner, pointsO, pointsX) {
+  let newPointsX = pointsX
+  let newPointsO = pointsO
+  if (winner == 'x') {
+    newPointsX++
+  } else {
+    newPointsO++
+  }
+  return { newPointsX, newPointsO }
+}

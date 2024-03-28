@@ -1,19 +1,18 @@
-import { Square } from "./Square";
-import { PropTypes } from "prop-types";
-export const Game = ({ board, updateBoard }) => {
+import { Square } from './Square'
+import { GameContext } from '../context/GameContext'
+import { useContext } from 'react'
+
+export const Game = () => {
+  const { board } = useContext(GameContext)
   return (
-    <div className="game">
+    <div className='game'>
       {board.map((value, index) => {
         return (
-          <Square key={index} index={index} updateBoard={updateBoard}>
+          <Square key={index} index={index}>
             {value}
           </Square>
-        );
+        )
       })}
     </div>
-  );
-};
-Game.propTypes = {
-  board: PropTypes.array.isRequired,
-  updateBoard: PropTypes.func.isRequired,
-};
+  )
+}
